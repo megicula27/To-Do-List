@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <title>Memo</title>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar scroll</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+          aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarScroll">
+          <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Link
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled">Link</a>
+            </li>
+          </ul>
+          <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="bg-image" style="
+    background-image: url('/diary.jpg');
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  ">
+    <div class="container pt-4 col-6">
+
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Task" aria-label="Task" aria-describedby="button-addon2">
+        <button class="btn btn-outline-success" type="button" id="button-addon2">Add</button>
+      </div>
+      <ul class="list-group" id="parent-list">
+        <li class="list-group-item d-flex justify-content-between">
+          <h3 class="flex-grow-1">Task 1</h3>
+          <button class="btn btn-success mx-3" type="button" id="button-addon3"
+            onclick="updateTask(this)">Update</button>
+          <button type="button" class="btn btn-danger " id="button-addon4 " onclick="removeTask(this)">Remove</button>
+        </li>
+
+      </ul>
+
+
+    </div>
+  </div>
+  <script>
+    let but = document.getElementById("button-addon2");
+    let parentList = document.getElementById("parent-list");
+    but.addEventListener("click", add);
+
+
+
+    function add(e) {
+
+      let add = e.currentTarget;
+      let txt = add.previousElementSibling.value;
+      let ch = parentList.firstElementChild.className;
+
+
+      if (ch == "empty") {
+        parentList.firstElementChild.remove();
+      }
+
+      if (txt.trim() == "") {
+        alert("Please Enter Some Value");
+      } else {
+
+        parentList.innerHTML +=
+          ` <li class="list-group-item d-flex justify-content-between">
+        <h3 class="flex-grow-1">${txt}</h3>
+        <button class="btn btn-success mx-3" type="button" id="button-addon3" onclick="updateTask(this)">Update</button>
+        <button type="button" class="btn btn-danger " id="button-addon4 " onclick="removeTask(this)">Remove</button>
+      </li>`;
+      }
+    }
+
+    function removeTask(e) {
+
+      let papa = e.parentElement;
+      papa.remove();
+
+      let size = parentList.children.length;
+
+
+      if (size <= 0) {
+
+        let n = document.createElement("h3");
+        n.classList.add("empty");
+        n.textContent = "Please enter your task name";
+        parentList.appendChild(n);
+      }
+    }
+    
+    function updateTask(e)
+    {
+      let val = e.previousElementSibling.textContent; 
+      
+      if(e.innerHTML == "Update")
+      {
+        
+        e.innerHTML = "Done";
+        let n = document.createElement("input")
+        n.value = val;
+        n.classList.add("flex-grow-1");
+        e.parentElement.replaceChild(n,e.previousElementSibling); 
+      }
+      else
+      {
+        e.innerHTML = "Update";
+        let n = document.createElement("h3");
+        n.textContent = e.previousElementSibling.value;
+        n.classList.add("flex-grow-1");
+        console.log(e.previousElementSibling.value);
+        e.parentElement.replaceChild(n,e.previousElementSibling);
+      }
+    }
+  </script>
+</body>
+
+</html>
